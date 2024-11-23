@@ -1,0 +1,2 @@
+https://news.google.com/rss/search?q=when:24h+allinurl:apnews.com&hl=en-CA&gl=CA&ceid=CA:en
+https://www.medicalnewstoday.com/
