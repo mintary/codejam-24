@@ -1,6 +1,5 @@
 import requests
 import ijson
-from selenium import webdriver
 import typing_extensions as typing
 from bs4 import BeautifulSoup
 import json
@@ -16,7 +15,7 @@ load_dotenv()
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 model = genai.GenerativeModel("gemini-1.5-flash")
 
-question_words = {
+QUESTION_WORDS = {
     "Who", 
     "What", 
     "Where", 
@@ -29,7 +28,7 @@ question_words = {
     "Can"
 }
 
-exclude_media = {
+EXCLUDE_MEDIA = {
     "video",
     "photo",
     "visuals",
@@ -37,15 +36,9 @@ exclude_media = {
     "picture"
 }
 
-double_quote = {
+DOUBLE_QUOTE = {
     "“",
 }
-
-url1 = "https://www.medicalnewstoday.com/news"
-url2 = "https://apnews.com/world-news"
-# driver = webdriver.Chrome()
-url3 = "https://storage.googleapis.com/datacommons-feeds/factcheck/latest/data.json"
-
 # get claims from google fact check api datafeed
 
 # spaghetti ass code i'm sorry
@@ -56,7 +49,7 @@ def contains_text(text, set):
 def scrape_factcheck(n: int, max_offset: int):
     category_model = CategoryModel()
 
-    response = requests.get(url3, stream=True)
+    response = requests.get("https://storage.googleapis.com/datacommons-feeds/factcheck/latest/data.json", stream=True)
     if response.status_code == 200:
         objects = ijson.items(response.raw, "dataFeedElement.item")
         claims = []
@@ -87,7 +80,7 @@ def scrape_factcheck(n: int, max_offset: int):
 
 def scrape_political(n: int):
     articles = []
-    response = requests.get(url2)
+    response = requests.get("https://apnews.com/world-news")
     if response.status_code != 200:
         print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
     else: 
@@ -104,7 +97,7 @@ def scrape_political(n: int):
 
 def scrape_medical(n: int):
     articles = []
-    response = requests.get(url1)
+    response = requests.get("https://www.medicalnewstoday.com/news")
 
     if response.status_code != 200:
         print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
