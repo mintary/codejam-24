@@ -67,4 +67,4 @@ if __name__ == '__main__':
     print('Running the app')
 
     with app.app_context():
-        app.run(debug=False)
+      app.run(debug=False)
