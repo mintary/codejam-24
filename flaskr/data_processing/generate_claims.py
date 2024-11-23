@@ -66,7 +66,7 @@ def scrape_factcheck(n: int, max_offset: int):
                     lang = detect(claimReviewed)
                 except:
                     continue
-                if item[0]["@type"] == "ClaimReview" and "false" in item[0]["reviewRating"]["alternateName"].lower() and lang == "en" and "?" not in claimReviewed  and not contains_text(claimReviewed.lower(), question_words) and not contains_text(claimReviewed.lower(), exclude_media) and not contains_text(claimReviewed.lower(), double_quote):
+                if item[0]["@type"] == "ClaimReview" and "false" in item[0]["reviewRating"]["alternateName"].lower() and lang == "en" and "?" not in claimReviewed  and not contains_text(claimReviewed.lower(), QUESTION_WORDS) and not contains_text(claimReviewed.lower(), EXCLUDE_MEDIA) and not contains_text(claimReviewed.lower(), DOUBLE_QUOTE):
                     predicted_category = category_model.predict_categories([claimReviewed])
                     if predicted_category and predicted_category[0].lower() in ["politics", "science"]:
                         claims.append({
@@ -120,7 +120,7 @@ Remove headlines that are overly opinionated/rhetorical question title
 def filter_headlines(headlines):
     filtered = []
     for headline in headlines:
-        if "?" not in headline and not contains_text(headline, question_words):
+        if "?" not in headline and not contains_text(headline, QUESTION_WORDS):
             filtered.append(headline)
     return filtered
 
