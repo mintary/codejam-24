@@ -24,14 +24,10 @@ def analyze_sentiment(text):
 
 text_data = [
     "SEC Chair Gary Gensler, who led US crackdown on cryptocurrencies, to step down",
-    "Elon Musk’s budget crusade could cause a constitutional clash in Trump’s second term",
-    "Number of women who are state lawmakers inches up to a record high",
-    "Trump’s against climate action. But some right-wing governments are all for it",
-    "Trump raced to pick many Cabinet posts. He took more time to settle on a treasury secretary",
-    "What to know about Scott Bessent, Trump’s pick for treasury secretary",
-    "North Carolina GOP’s legislative priorities for this year inch closer to becoming law",
-    "Hurricane Helene isn’t the only big storm North Carolina is still recovering from",
-    "Will the antitrust showdown launched under Biden turn into ‘Let’s Make A Deal’ under Trump?"
+    "An influx of outsiders and money turns Montana Republican, culminating in a Senate triumph",
+    "Guest lineups for the Sunday news shows",
+    "JD Vance is leaving the Senate for the vice presidency. That’s set off a scramble for his Ohio seat",
+    "Trump convinced Republicans to overlook his misconduct. But can he do the same for his nominees?",
 ]
 
 for text in text_data:

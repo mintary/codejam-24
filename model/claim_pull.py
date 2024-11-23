@@ -12,7 +12,7 @@ if response.status_code == 200:
     first_three = []
     for obj in objects:
         first_three.append(obj)
-        if len(first_three) == 3:
+        if len(first_three) == 20:
             break
 
     print(first_three)
