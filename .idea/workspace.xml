@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc7a42f4-1b72-4d6e-b485-7ddda92e5410" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codejam-24.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flaskr/Models/User.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flaskr/Services/AuthenticationService.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flaskr/Services/GameService.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flaskr/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flaskr/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c7386bc7-fb8b-4155-b240-d0054f59e736.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c7386bc7-fb8b-4155-b240-d0054f59e736.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +55,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "julien",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
