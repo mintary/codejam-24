@@ -1,48 +1,15 @@
-import os
-
 from flask import Flask, jsonify, request
-from flask_bcrypt import Bcrypt
-from flask_login import UserMixin
-from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required
-from sqlalchemy import JSON
-from dotenv import load_dotenv
+from flaskr.Services.AuthenticationService import AuthenticationService
+from flaskr.Services.GameService import GameService
+from flaskr import create_app
 
-app = Flask(__name__)
 
-# Configuration
+app = create_app()
 
-load_dotenv()
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
-app.config['JWT_TOKEN_LOCATION'] = ['headers']
-
-# Database Initialization
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
-# JWT Initialization
-jwt = JWTManager(app)
-
-# Bcrypt Initialization
-bcrypt = Bcrypt(app)
-
-# Models
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(80), nullable=False)
-    score = db.Column(db.Integer, default=0)
-    last_played = db.Column(db.DateTime, nullable=True)
-
-    friends = db.Column(JSON, nullable=True, default=list)
-
-    def __repr__(self):
-        return f'<User {self.username}>'
-
+# Initialize services
+_authServ = AuthenticationService()
+_gameServ = GameService("answer", "question")
 
 
 # Rest of the application code (routes, etc.)
@@ -51,24 +18,53 @@ class User(db.Model, UserMixin):
 def hello_world():
     return 'Hello, World!'
 
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    username = data['username']
-    password = data['password']
-    print('Received data:', username , password)
+    return _authServ.login(data)
 
-    user = User.query.filter_by(username=username).first()
 
-    if user and bcrypt.check_password_hash(user.password, password):
-        access_token = create_access_token(identity=user.id)
-        return jsonify({'message': 'Login Success', 'access_token': access_token})
-    else:
-        return jsonify({'message': 'Login Failed'}), 401
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    print('Received data:', data)
+    return _authServ.register(data)
+
+
+@app.route('/friend', methods=['POST'])
+@jwt_required()
+def add_friend():
+    data = request.get_json()
+    return _authServ.add_friend(data)
+
+
+@app.route('/friend', methods=['GET'])
+@jwt_required()
+def list_friends():
+    data = request.get_json()
+    return _authServ.list_friends(data)
+
+
+@app.route('/user', methods=['GET'])
+@jwt_required()
+def get_user():
+    data = request.get_json()
+    return _authServ.get_user(data)
+
+
+@app.route('/submit_answer', methods=['GET'])
+@jwt_required()
+def submit_answer():
+    data = request.get_json()
+    if _gameServ.submit_answer(data):
+        _authServ.add_score(data)
+        return jsonify({'message': 'Correct answer!'}), 200
+    return jsonify({'message': 'Incorrect answer!'}), 200
+
 
 if __name__ == '__main__':
     print('Running the app')
 
     with app.app_context():
         app.run(debug=False)
-
