@@ -1,4 +1,4 @@
-import './App.css';
+import "./App.css";
 import Nav from "./components/Nav";
 
 function App() {
@@ -7,7 +7,6 @@ function App() {
       <header className="App-header">
         <Nav />
       </header>
-
     </div>
   );
 }
