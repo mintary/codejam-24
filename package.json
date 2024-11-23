@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "codejam-24": "file:",
     "create-react-app": "^5.0.1",
     "flask": "^0.2.10"
   }
