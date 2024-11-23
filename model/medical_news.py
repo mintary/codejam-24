@@ -1,21 +1,75 @@
 import requests
+from selenium import webdriver
 from bs4 import BeautifulSoup
+import time
+import nltk
+from nltk.corpus import stopwords
+from textblob import TextBlob
+nltk.download("stopwords")
+import string
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-url = 'https://www.medicalnewstoday.com/news'
+def preprocess_text(text):
+    text = text.lower()
+    text = "".join([char for char in text if char not in string.punctuation])
 
-response = requests.get(url)
-if response.status_code == 200:
-    soup = BeautifulSoup(response.text, 'html.parser')
+    words = text.split()
+    words = [word for word in words if word not in stopwords.words("english")]
 
-    ol_elements = soup.find_all('ol')
+    return " ".join(words)
 
-    if ol_elements:
-        for index, ol in enumerate(ol_elements):
-            print(f"Ordered List {index + 1}:")
-            print(ol)
-            print('-' * 40)
+def analyze_sentiment(text):
+    analysis = TextBlob(text)
+    if analysis.sentiment.polarity > 0:
+        return "Positive"
+    elif analysis.sentiment.polarity == 0:
+        return "Neutral"
     else:
-        print("No <ol> elements found.")
+        return "Negative"
 
-else:
-    print(f"Failed to retrieve content, status code {response.status_code}")
+url1 = 'https://www.medicalnewstoday.com/news'
+url2 = 'https://apnews.com/world-news'
+# driver = webdriver.Chrome()
+
+def scrape_political():
+    articles = []
+    response = requests.get(url2)
+    if response.status_code != 200:
+        print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
+    else: 
+        time.sleep(5)
+        soup = BeautifulSoup(response.content, "html.parser")
+        articles = soup.find_all("div", class_="PagePromo")
+        headlines = []
+        for article in articles:
+            headline = article.find("span", class_="PagePromoContentIcons-text")
+            if headline and headline.text:
+                headlines.append(headline.text)
+
+    return headlines
+
+def scrape_medical():
+    articles = []
+    response = requests.get(url1)
+
+    if response.status_code != 200:
+        print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
+    else:
+        time.sleep(5) 
+        soup = BeautifulSoup(response.content, "html.parser")
+        articles = soup.find_all("li")
+        headlines = []
+
+        for article in articles:
+            headline = article.find("h2")
+            if headline != None and headline.text:
+                headlines.append(headline.text)
+
+    return headlines
+
+'''
+Remove articles that are overly opinionated/rhetorical question title
+'''
+def filterArticles(articles):
+    filteredArticles = []
+    for article in articles:
