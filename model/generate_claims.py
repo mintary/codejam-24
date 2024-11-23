@@ -1,13 +1,20 @@
 import requests
 import ijson
 from selenium import webdriver
+import typing_extensions as typing
 from bs4 import BeautifulSoup
-import joblib
-import time
+import json
 import random
 import os
 from langdetect import detect
 from category_model import CategoryModel
+import google.generativeai as genai
+from dotenv import load_dotenv
+
+load_dotenv()
+
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 question_words = {
     "Who", 
@@ -26,7 +33,8 @@ exclude_media = {
     "video",
     "photo",
     "visuals",
-    "image"
+    "image",
+    "picture"
 }
 
 double_quote = {
@@ -65,7 +73,7 @@ def scrape_factcheck(n: int, max_offset: int):
                     lang = detect(claimReviewed)
                 except:
                     continue
-                if item[0]["@type"] == "ClaimReview" and lang == "en" and "?" not in claimReviewed and not contains_text(claimReviewed.lower(), exclude_media) and not contains_text(claimReviewed.lower(), double_quote):
+                if item[0]["@type"] == "ClaimReview" and "false" in item[0]["reviewRating"]["alternateName"].lower() and lang == "en" and "?" not in claimReviewed  and not contains_text(claimReviewed.lower(), question_words) and not contains_text(claimReviewed.lower(), exclude_media) and not contains_text(claimReviewed.lower(), double_quote):
                     predicted_category = category_model.predict_categories([claimReviewed])
                     if predicted_category and predicted_category[0].lower() in ["politics", "science"]:
                         claims.append({
@@ -122,7 +130,28 @@ def filter_headlines(headlines):
         if "?" not in headline and not contains_text(headline, question_words):
             filtered.append(headline)
     return filtered
-    
+
+class Claim(typing.TypedDict):
+  claim: str
+  category: str
+
+        
+def fix_json_kill_me(text):
+    lines = text.splitlines()
+    no_backticks = lines[1:-1] 
+    processed_text = "".join(no_backticks)
+    json_data = json.loads(processed_text)
+    return json_data
+
+'''
+convert the claims to slightly more
+legit sounding headlines
+'''
+def convert_to_headlines(claims):
+    response = model.generate_content(f"Summarize statements, add a little uncertainty to health statements and write events as if they occured in the present. Return as JSON list of strings and categories: {claims}")
+    processed_claims = fix_json_kill_me(response.text)
+    return processed_claims
+
 med_headlines = scrape_medical(15)
 filtered_med = filter_headlines(med_headlines)
 print(filtered_med)
@@ -131,4 +160,6 @@ political_headlines = scrape_political(15)
 filtered_political = filter_headlines(political_headlines)
 print(filtered_political)
 
-print(scrape_factcheck(15, 40))
+false_claims = scrape_factcheck(15, 7)
+shit = convert_to_headlines(false_claims)
+print(shit)
