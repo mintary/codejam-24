@@ -62,6 +62,12 @@ def submit_answer():
         return jsonify({'message': 'Correct answer!'}), 200
     return jsonify({'message': 'Incorrect answer!'}), 200
 
+@app.route('/get_question', methods=['GET'])
+@jwt_required()
+def get_question():
+    data = request.get_json()
+    return _gameServ.get_question(data)
+
 
 if __name__ == '__main__':
     print('Running the app')

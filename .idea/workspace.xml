@@ -5,7 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc7a42f4-1b72-4d6e-b485-7ddda92e5410" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/flaskr/data_processing/help.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/c7386bc7-fb8b-4155-b240-d0054f59e736.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c7386bc7-fb8b-4155-b240-d0054f59e736.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c7386bc7-fb8b-4155-b240-d0054f59e736/storage_v2/_src_/database/codejam24.C3FlvQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c7386bc7-fb8b-4155-b240-d0054f59e736/storage_v2/_src_/database/codejam24.C3FlvQ/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_processing/category_classification.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/data_processing/category_classification.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_processing/category_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/data_processing/category_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_processing/generate_claims.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/data_processing/generate_claims.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_processing/help.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/data_processing/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_processing/models/label_encoder.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/data_processing/models/label_encoder.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_processing/models/news_category_model.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/data_processing/models/news_category_model.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_processing/models/vectorizer.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/data_processing/models/vectorizer.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_processing/test.json" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/data_processing/test.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flaskr/Services/GameService.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/Services/GameService.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flaskr/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flaskr/migrations/env.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/migrations/env.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +84,12 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hengj\Desktop\CodeJam\codejam-24\flaskr" />
+      <recent name="C:\Users\hengj\Desktop\CodeJam\codejam-24" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="codejam-24" />
