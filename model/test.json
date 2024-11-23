@@ -1,0 +1,47 @@
+{
+    "@type": "DataFeedItem",
+    "dateCreated": "2024-11-23T12:58:33.730145+00:00",
+    "item": [
+      {
+        "@context": "http://schema.org",
+        "@type": "ClaimReview",
+        "author": {
+          "@type": "Organization",
+          "name": "FACTLY",
+          "url": "https://factly.in/"
+        },
+        "claimReviewed": "A video shows ex-Congress leader Sanjay Nirupam appealing to voters to support the Bharatiya Janata Party in the Maharashtra Assembly Elections 2024.",
+        "datePublished": "2024-11-22",
+        "itemReviewed": {
+          "@type": "Claim",
+          "appearance": [
+            {
+              "@type": "CreativeWork",
+              "url": "https://www.facebook.com/100005841331556/posts/1102132291463523/"
+            }
+          ],
+          "author": {
+            "@type": "Person",
+            "name": "Social Media User"
+          },
+          "datePublished": "2024-11-20"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "alternateName": "FALSE",
+          "bestRating": "5",
+          "image": "https://factly.in/wp-content/uploads//2018/12/False.png",
+          "ratingExplanation": "The viral video is not recent. On 19 April 2024, as polling began for the first phase of the Lok Sabha elections 2024, Nirupam appealed voters to support the BJP and its allies, while criticizing Congress as an outdated “heritage building” unable to change the country’s situation.",
+          "ratingValue": "1",
+          "worstRating": "1"
+        },
+        "sdPublisher": {
+          "@type": "Organization",
+          "name": "Google Fact Check Tools API",
+          "url": "https://g.co/factchecktools"
+        },
+        "url": "https://factly.in/an-old-video-of-sanjay-nirupam-asking-voters-to-vote-for-bjp-and-criticising-congress-is-shared-as-recent/"
+      }
+    ],
+    "url": "https://factly.in/an-old-video-of-sanjay-nirupam-asking-voters-to-vote-for-bjp-and-criticising-congress-is-shared-as-recent/"
+  }
