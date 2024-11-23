@@ -1,1 +1,1 @@
-# codejam24-api
+# codejam-24
