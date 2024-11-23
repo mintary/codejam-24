@@ -141,7 +141,7 @@ convert the claims to slightly more
 legit sounding headlines
 '''
 def convert_to_headlines(claims):
-    response = model.generate_content(f"Summarize statements, add a little uncertainty to health statements and write events as if they occured in the present. Return as JSON list of strings and categories: {claims}")
+    response = model.generate_content(f"Summarize statements and write events as if they occured in the present. Return as JSON list of strings and categories: {claims}")
     processed_claims = fix_json_kill_me(response.text)
     return processed_claims
 
