@@ -91,7 +91,7 @@ const Nav = () => {
               <div>
                 <h4
                   onClick={handleLogout}
-                  className="text-blue-500 hover:text-green cursor-pointer transition-colors duration-200"
+                  className="text-green hover:text-green cursor-pointer transition-colors duration-200"
                 >
                   <strong>Log out</strong>
                 </h4>
