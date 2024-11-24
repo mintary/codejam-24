@@ -9,10 +9,10 @@ const Signup = () => {
 
   const auth = useAuth();
   const handleSubmitEvent = (e) => {
-    console.log("submitted login");
+    console.log("submitted register");
     e.preventDefault();
     if (input.username !== "" && input.password !== "") {
-      auth.loginAction(input);
+      auth.register(input);
       return;
     }
     alert("Fields cannot be empty.");
@@ -27,29 +27,32 @@ const Signup = () => {
   };
 
   return (
-    <form onSubmit={handleSubmitEvent}>
-      <div className="user-form">
-        <label>Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          placeholder="john123"
-          onChange={handleInput}
-        />
-      </div>
-      <div className="user-form">
-        <label>Password:</label>
-        <input
-          type="text"
-          id="password"
-          name="password"
-          placeholder="Enter a secure password."
-          onChange={handleInput}
-        />
-      </div>
-      <button className="btn-submit">Submit</button>
-    </form>
+    <div>
+      <p>signup</p>
+      <form onSubmit={handleSubmitEvent}>
+        <div className="user-form">
+          <label>Username:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="john123"
+            onChange={handleInput}
+          />
+        </div>
+        <div className="user-form">
+          <label>Password:</label>
+          <input
+            type="text"
+            id="password"
+            name="password"
+            placeholder="Enter a secure password."
+            onChange={handleInput}
+          />
+        </div>
+        <button className="btn-submit">Submit</button>
+      </form>
+    </div>
   );
 };
 

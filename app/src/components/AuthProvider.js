@@ -39,8 +39,32 @@ const AuthProvider = ({ children }) => {
     console.log("logged out");
   };
 
+  const register = async (data) => {
+    try {
+      const response = await fetch("/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      if (res["message"] === "User created successfully") {
+        setUsername(data.username);
+        localStorage.setItem("site", res["access_token"]);
+        console.log("registered and logged in");
+        navigate("/", { replace: true });
+      } else {
+        alert("Error registering: user may already exist.");
+        throw new Error(`${res["message"]}`);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ username, loginAction, logOut }}>
+    <AuthContext.Provider value={{ username, loginAction, logOut, register }}>
       {children}
     </AuthContext.Provider>
   );
