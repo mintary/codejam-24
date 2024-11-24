@@ -17,8 +17,8 @@ const Nav = () => {
   return (
     <nav className="bg-white bg-card drop-shadow-sm">
       <div className="flex justify-between items-center">
-        <div className="relative flex items-center">
-          <Hamburger className="ml-5" onClick={toggleHamburger} />
+        <div className="flex items-center ml-4">
+          <Hamburger onClick={toggleHamburger} />
           <div
             className={`navigation fixed top-0 left-0 w-[25vw] h-screen bg-white text-grey transform transition-transform duration-300 ease-in-out ${
               hamburgerOpen ? "translate-x-0" : "-translate-x-full"
