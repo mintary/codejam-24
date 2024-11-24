@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AuthProvider from "./components/AuthProvider";
 import LoginScreen from "./screens/LoginScreen";
 import GameScreen from "./screens/GameScreen";
+import SignupScreen from "./screens/SignupScreen";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           </header>
           <Routes>
             <Route path="/login" element={<LoginScreen />} />
+            <Route path="/signup" element={<SignupScreen />} />
             <Route path="/" element={<GameScreen />} />
           </Routes>
         </AuthProvider>
