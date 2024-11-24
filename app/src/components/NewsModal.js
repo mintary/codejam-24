@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import plantleaves from "../assets/plantleaves.png";
-import "./Gameboard.css";
-
 const NewsModal = ({ isVisible, claim, position }) => {
-  if (!isVisible) return null;
+  if (!isVisible || !position) return null;
+
+  const { top, left } = position;
 
   return (
     <div
-      className="absolute z-40 bg-white p-4 rounded shadow-md"
+      className="absolute z-40 bg-white shadow-lg p-4 rounded-lg"
       style={{
-        top: position?.top,
-        left: position?.left,
+        top: `${top}px`,
+        left: `${left}px`,
+        transform: "translate(-300%, -110%)",
       }}
     >
-      <p className="text-sm font-medium">{claim}</p>
+      <p className="text-black">{claim}</p>
     </div>
   );
 };

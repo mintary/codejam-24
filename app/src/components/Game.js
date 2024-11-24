@@ -81,7 +81,7 @@ const Game = ({ claims }) => {
     });
 
     setGamePositions(positions);
-  }, [totalWeedCount, shuffledClaims]);
+  }, [totalWeedCount]);
 
   const handlePositionClick = (id) => {
     if (gameOver) return;
