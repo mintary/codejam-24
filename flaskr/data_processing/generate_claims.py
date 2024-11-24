@@ -70,6 +70,7 @@ class ClaimsGenerator:
                         continue
                     if item[0]["@type"] == "ClaimReview" and "false" in item[0]["reviewRating"]["alternateName"].lower() and lang == "en" and "?" not in claimReviewed  and not self.contains_text(claimReviewed.lower(), self.QUESTION_WORDS) and not self.contains_text(claimReviewed.lower(), self.EXCLUDE_MEDIA) and not self.contains_text(claimReviewed.lower(), self.DOUBLE_QUOTE):
                         predicted_category = category_model.predict_categories([claimReviewed])
+                        print(predicted_category)
                         if predicted_category and predicted_category[0].lower() in ["politics", "science"]:
                             claims.append({
                                     "claim": claimReviewed.strip("\n"),
@@ -136,7 +137,7 @@ class ClaimsGenerator:
         return json_data
     
     def convert_to_headlines(self, claims):
-        response = self.model.generate_content(f"Summarize statements and write events as if they occured in the present. Return as JSON list of strings and categories: {claims}")
+        response = self.model.generate_content(f"Summarize statements with proper grammar and write events as if they occured in the present. Return as JSON list of strings and categories from Science, Politics, Other, Entertainment: {claims}")
         processed_claims = self.fix_json_kill_me(response.text)
         return processed_claims
     
@@ -157,15 +158,19 @@ class ClaimsGenerator:
         result = []
         while len(result) < number:
             false_claims = self.scrape_factcheck(10,4)
-            for claim in false_claims:
+            headlines =  self.convert_to_headlines(false_claims)
+            print(headlines)
+            for headline in headlines:
                 if len(result) == number:
                     break
-                if claim['category'] == category:
-                    result.append(number)
+                if headline['category'] == category:
+                    result.append(headline["claim"])
+        return result
 
 
 
 """
+
 claims = ClaimsGenerator()
 print(claims.scrape_medical(10))
 print(claims.scrape_political(10))
