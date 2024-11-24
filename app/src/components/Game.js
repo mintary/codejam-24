@@ -133,13 +133,15 @@ const Game = ({ claims }) => {
 
   const handleHoverEnter = (pos, e) => {
     const rect = e.target.getBoundingClientRect();
-    console.log(rect);
     setHoverPosition({
-      top: rect.top,
-      left: rect.left,
+      top: rect.top + window.scrollY, 
+      left: rect.left + window.scrollX, 
+      width: rect.width,
+      height: rect.height,
     });
     setHoveredCircle(pos);
   };
+  
 
   const handleHoverLeave = () => {
     setHoveredCircle(null);
