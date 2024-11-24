@@ -7,7 +7,7 @@ class CategoryModel:
         self.model = None
         self.vectorizer = None
         self.label_encoder = None
-        self.random_offset = random.randint(0, 10)
+        self.random_offset = 1
     
     def load_model_and_vectorizer(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))

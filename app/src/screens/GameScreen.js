@@ -40,7 +40,10 @@ const GameScreen = () => {
           <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
             Weed Out
           </h1>
-
+          <p className="text-center">
+            Weed Out is a game where you identify false claims from verified
+            claims, updated live from fact checkers and news sites we track.
+          </p>
           <h3 className="text-xl font-semibold text-center text-gray-700 mb-6">
             Choose a category
           </h3>

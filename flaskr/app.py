@@ -48,7 +48,6 @@ def list_friends():
 
 
 @app.route('/user', methods=['GET'])
-@jwt_required()
 def get_user():
     data = request.get_json()
     return _authServ.get_user(data)

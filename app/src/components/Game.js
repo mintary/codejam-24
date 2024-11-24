@@ -4,7 +4,7 @@ import plantleaves from "../assets/plantleaves.png";
 import "./Gameboard.css";
 import NewsModal from "../components/NewsModal";
 
-const Modal = ({ isVisible, title, message, onNavigate }) => {
+const Modal = ({ isVisible, title, message, score, onNavigate }) => {
   const navigate = useNavigate();
 
   if (!isVisible) return null;
@@ -17,7 +17,8 @@ const Modal = ({ isVisible, title, message, onNavigate }) => {
     <div className="absolute inset-0 z-30 flex justify-center items-center bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-96">
         <h2 className="text-xl font-bold text-center mb-4">{title}</h2>
-        <p className="text-center mb-6">{message}</p>
+        <p className="text-center">{message}</p>
+        <p className="text-center mb-6">Score: {score}</p>
         <div className="flex justify-center">
           <button
             className="bg-green-blue hover:bg-dark-green-blue text-white font-semibold py-2 px-4 rounded"
@@ -46,6 +47,7 @@ const Game = ({ claims }) => {
   );
   const [hoveredCircle, setHoveredCircle] = useState(null);
   const [hoverPosition, setHoverPosition] = useState(null);
+  const [score, setScore] = useState(100);
 
   const shuffleAnswers = (claims) => {
     const shuffledClaims = [...claims];
@@ -135,6 +137,7 @@ const Game = ({ claims }) => {
       setOneAway(true);
       setTimeout(() => setOneAway(false), 2000);
     } else {
+      setScore(score - 25);
       setSubmitCount((prevCount) => prevCount + 1);
       setShakeCircles(selectedCircles);
       setTimeout(() => setShakeCircles([]), 500);
@@ -236,7 +239,12 @@ const Game = ({ claims }) => {
           />
         </div>
       </div>
-      <Modal isVisible={showModal} title={modalTitle} message={modalMessage} />
+      <Modal
+        isVisible={showModal}
+        title={modalTitle}
+        message={modalMessage}
+        score={score}
+      />
     </div>
   );
 };

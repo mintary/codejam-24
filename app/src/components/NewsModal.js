@@ -9,7 +9,7 @@ const NewsModal = ({ isVisible, claim, position }) => {
       style={{
         top: `${top}px`,
         left: `${left}px`,
-        transform: "translate(-250px, -50px)", 
+        transform: "translate(-250px, -50px)",
         width: "200px",
       }}
     >
@@ -19,4 +19,3 @@ const NewsModal = ({ isVisible, claim, position }) => {
 };
 
 export default NewsModal;
-
