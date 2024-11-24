@@ -6,16 +6,17 @@ class GameService:
     def __init__(self, answer, question):
         self.claims = ClaimsGenerator()
 
-    def get_question(self, data):
-        print(data)
-        category = data['category']
+    def get_question(self, category):
         right_claims = []
         wrong_claims = []
-        if category == 'political':
+        if category == 'Politics':
+            print("entered Politics")
             right_claims = self.claims.scrape_political(5)
-            wrong_claims = self.claims.wrong_claims('political', 2)
-        elif category == 'medical':
+            print(right_claims)
+            wrong_claims = self.claims.wrong_claims('Politics', 2)
+        elif category == 'Science':
             right_claims = self.claims.scrape_medical(5)
-            wrong_claims = self.claims.wrong_claims('medical', 2)
+            print(right_claims)
+            wrong_claims = self.claims.wrong_claims('Science', 2)
 
         return jsonify({'right_claims': right_claims, 'wrong_claims': wrong_claims}), 200

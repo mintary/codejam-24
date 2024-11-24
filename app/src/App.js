@@ -7,7 +7,6 @@ import GameScreen from "./screens/GameScreen";
 import SignupScreen from "./screens/SignupScreen";
 import LeaderBoardScreen from "./screens/LeaderBoardScreen";
 
-
 function App() {
   return (
     <div className="App">

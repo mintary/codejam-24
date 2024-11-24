@@ -62,8 +62,10 @@ def submit_answer():
 
 @app.route('/get-question', methods=['GET'])
 def get_question():
-    data = request.get_json()
-    return _gameServ.get_question(data)
+    category = request.args.get('category')
+    if not category:
+        return {"error": "Category is required"}, 400
+    return _gameServ.get_question(category)
 
 
 @app.route('/test', methods=['POST'])
