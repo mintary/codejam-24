@@ -7,15 +7,17 @@ const Login = () => {
     password: "",
   });
 
+  const [error, setError] = useState("");
   const auth = useAuth();
+
   const handleSubmitEvent = (e) => {
-    console.log("submitted login");
     e.preventDefault();
-    if (input.username !== "" && input.password !== "") {
-      auth.loginAction(input);
+    setError(""); 
+    if (!input.username || !input.password) {
+      setError("All fields are required.");
       return;
     }
-    alert("Fields cannot be empty.");
+    auth.loginAction(input); 
   };
 
   const handleInput = (e) => {
@@ -27,33 +29,60 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <p>signup</p>
-      <form onSubmit={handleSubmitEvent}>
-        <div className="user-form">
-          <label>Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="john123"
-            onChange={handleInput}
-          />
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mt-40 mb-20">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Log In</h2>
+
+        {error && <div className="text-red-500 text-center mb-4">{error}</div>}
+
+        <form onSubmit={handleSubmitEvent}>
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-gray-700 font-semibold">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="john123"
+              value={input.username}
+              onChange={handleInput}
+              className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-light-blue"
+            />
+          </div>
+
+          <div className="mb-6">
+            <label htmlFor="password" className="block text-gray-700 font-semibold">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter a secure password"
+              value={input.password}
+              onChange={handleInput}
+              className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-light-blue"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-green-blue hover:bg-dark-green-blue text-white py-3 rounded-md font-semibold focus:outline-none"
+          >
+            Log In
+          </button>
+        </form>
+
+        <div className="mt-4 text-center">
+          <span className="text-gray-600">Don't have an account? </span>
+          <button
+            onClick={() => window.location.href = "/signup"} 
+            className="text-green-blue hover:text-dark-green-blue font-semibold"
+          >
+            Sign Up
+          </button>
         </div>
-        <div className="user-form">
-          <label>Password:</label>
-          <input
-            type="text"
-            id="password"
-            name="password"
-            placeholder="Enter a secure password."
-            onChange={handleInput}
-          />
-        </div>
-        <button className="btn-submit">Submit</button>
-      </form>
+      </div>
     </div>
   );
 };
 
 export default Login;
+

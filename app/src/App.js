@@ -1,11 +1,12 @@
 import "./App.css";
 import Nav from "./components/Nav";
-import Game from "./components/Game";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AuthProvider from "./components/AuthProvider";
 import LoginScreen from "./screens/LoginScreen";
 import GameScreen from "./screens/GameScreen";
 import SignupScreen from "./screens/SignupScreen";
+import LeaderBoardScreen from "./screens/LeaderBoardScreen";
+
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/signup" element={<SignupScreen />} />
             <Route path="/" element={<GameScreen />} />
+            <Route path="/leaderboard" element={<LeaderBoardScreen />} />
           </Routes>
         </AuthProvider>
       </Router>

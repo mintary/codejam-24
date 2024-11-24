@@ -1,142 +1,197 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import plantleaves from '../assets/plantleaves.png'
+
+const Modal = ({ isVisible, title, message, onNavigate }) => {
+  const navigate = useNavigate();
+
+  if (!isVisible) return null;
+
+  const handleNavigateLeaderboard = () => {
+    navigate('/leaderboard');
+  };
+
+  return (
+    <div className="absolute inset-0 z-30 flex justify-center items-center bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+        <h2 className="text-xl font-bold text-center mb-4">{title}</h2>
+        <p className="text-center mb-6">{message}</p>
+        <div className="flex justify-center">
+          <button
+            className="bg-green-blue hover:bg-dark-green-blue text-white font-semibold py-2 px-4 rounded"
+            onClick={handleNavigateLeaderboard}
+          >
+            Go to Leaderboard
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Game = () => {
-  const totalMineCount = 2;
+  const totalWeedCount = 2;
   const [gamePositions, setGamePositions] = useState([]);
   const [submitCount, setSubmitCount] = useState(0);
   const [selectedCircles, setSelectedCircles] = useState([]);
-  const [gameOver, setGameOver] = useState(false); // New state for tracking if the game is over
+  const [gameOver, setGameOver] = useState(false);
+  const [oneAway, setOneAway] = useState(false);
+  const [shakeCircles, setShakeCircles] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("Game Over");
+  const [modalMessage, setModalMessage] = useState(
+    "You've reached the maximum number of attempts. Better luck next time!"
+  );
 
   useEffect(() => {
     const positions = Array.from({ length: 5 }, (_, i) => ({
       id: i + 1,
-      isMine: false,
+      isWeed: false,
       selected: false,
     }));
 
-    // Randomly pick 2 positions to be mines
-    const mineIndices = new Set();
-    while (mineIndices.size < totalMineCount) {
-      mineIndices.add(Math.floor(Math.random() * positions.length));
+    const weedIndices = new Set();
+    while (weedIndices.size < totalWeedCount) {
+        weedIndices.add(Math.floor(Math.random() * positions.length));
     }
 
-    mineIndices.forEach((index) => {
-      positions[index].isMine = true;
+    weedIndices.forEach((index) => {
+      positions[index].isWeed = true;
     });
 
     setGamePositions(positions);
-  }, [totalMineCount]);
+  }, [totalWeedCount]);
 
   const handlePositionClick = (id) => {
-    if (gameOver) return; // Prevent selecting circles if the game is over
-
+    if (gameOver) return;
     const newSelectedCircles = [...selectedCircles];
-    
+
     if (newSelectedCircles.includes(id)) {
       setSelectedCircles(newSelectedCircles.filter((circleId) => circleId !== id));
-    } 
-    else {
+    } else {
       if (newSelectedCircles.length < 2) {
         newSelectedCircles.push(id);
         setSelectedCircles(newSelectedCircles);
-      } 
-      else {
+      } else {
         newSelectedCircles.shift();
-        newSelectedCircles.push(id); 
+        newSelectedCircles.push(id);
         setSelectedCircles(newSelectedCircles);
       }
     }
   };
 
-  const clickedMinesCount = gamePositions.filter(
-    (pos) => pos.isMine && selectedCircles.includes(pos.id)
+  const clickedWeedCount = gamePositions.filter(
+    (pos) => pos.isWeed && selectedCircles.includes(pos.id)
   ).length;
 
   const handleSubmit = () => {
-    if (gameOver) return; // Prevent submitting if the game is over
+    if (gameOver) return;
 
-    if (clickedMinesCount === totalMineCount) {
-      alert("You found all the mines!");
-    } 
-    else if (clickedMinesCount === 1) {
-        setSubmitCount((prevCount) => prevCount + 1); 
-        alert("You're 1 away!")
-    }
-    else {
-      setSubmitCount((prevCount) => prevCount + 1); 
-      alert("You did not find any of the fake articles. Try again!");
+    if (clickedWeedCount === totalWeedCount) {
+      setModalTitle("You Won!");
+      setModalMessage("Congratulations! You found all the weeds!");
+      setGameOver(true);
+      setShowModal(true);
+    } else if (clickedWeedCount === 1) {
+      setSubmitCount((prevCount) => prevCount + 1);
+      setOneAway(true);
+      setTimeout(() => setOneAway(false), 2000);
+    } else {
+      setSubmitCount((prevCount) => prevCount + 1);
+      setShakeCircles(selectedCircles);
+      setTimeout(() => setShakeCircles([]), 500);
     }
 
-    if (submitCount === 3) {
-      setGameOver(true); 
-      alert("Game Over! You've reached the maximum number of attempts.");
+    if (submitCount === 3 && clickedWeedCount !== totalWeedCount) {
+      setGameOver(true);
+      setShowModal(true);
     }
   };
 
   return (
-    <div className="w-full min-h-screen">
-      <div className="w-full max-w-2xl mx-auto p-4">
-        <div className="bg-light-blue p-6 rounded-xl shadow-lg mt-5">
+    <div className="w-full min-h-screen relative bg-gray-100">
+      {/* Game Content */}
+      <div className="w-full max-w-2xl mx-auto p-4 relative z-10">
+        <div className="bg-light-blue p-6 rounded-xl shadow-lg mt-40 mb-20 relative">
           <div className="font-lato font-bold text-center mb-5 text-2xl">
             Find the fake news articles!
           </div>
           {/* Game Board */}
-          <div className="bg-green h-64 rounded-lg mb-4 p-10 flex flex-col justify-center items-center">
-            {/* Top row */}
+          <div className="bg-green h-64 rounded-lg mb-4 p-10 flex flex-col justify-center items-center relative z-20">
             <div className="flex justify-center gap-40 mb-10">
               {gamePositions.slice(0, 3).map((pos) => (
                 <div
                   key={pos.id}
-                  className={`h-12 w-12 rounded-full cursor-pointer bg-dark-green
-                    ${selectedCircles.includes(pos.id) ? 'border-4 border-warm-yellow' : 'border-4 border-transparent'}
-                  `}
+                  className={`relative h-16 w-16 rounded-full cursor-pointer bg-brown flex justify-center items-center ${
+                    selectedCircles.includes(pos.id)
+                      ? "border-4 border-warm-yellow"
+                      : "border-4 border-transparent"
+                  } ${shakeCircles.includes(pos.id) ? "shake" : ""}`}
                   onClick={() => handlePositionClick(pos.id)}
-                />
+                >
+                  <img
+                    src={plantleaves}
+                    alt="Plant Leaves"
+                    className="h-12 w-12 object-cover"
+                  />
+                </div>
               ))}
             </div>
-            {/* Bottom row */}
             <div className="flex justify-center gap-40 mt-5">
               {gamePositions.slice(3).map((pos) => (
                 <div
                   key={pos.id}
-                  className={`h-12 w-12 rounded-full cursor-pointer bg-dark-green
-                    ${selectedCircles.includes(pos.id) ? 'border-4 border-warm-yellow' : 'border-4 border-transparent'}
-                  `}
+                  className={`relative h-16 w-16 rounded-full cursor-pointer bg-brown flex justify-center items-center ${
+                    selectedCircles.includes(pos.id)
+                      ? "border-4 border-warm-yellow"
+                      : "border-4 border-transparent"
+                  } ${shakeCircles.includes(pos.id) ? "shake" : ""}`}
                   onClick={() => handlePositionClick(pos.id)}
-                />
+                >
+                  <img
+                    src={plantleaves}
+                    alt="Plant Leaves"
+                    className="h-12 w-12 object-cover"
+                  />
+                </div>
               ))}
             </div>
           </div>
-          {/* Submit Counter and Circles */}
+          {/* Submit Counter */}
           <div className="flex justify-center flex-col items-center gap-4 mt-5">
-            <div className="font-lato">
-                Number of Tries Remaining:
-            </div>
+            <div className="font-lato">Number of Tries Remaining:</div>
             <div className="flex gap-2">
-              {/* Submit count */}
-              {Array.from({ length: 4 }).map((_, index) => (
-                <div
-                  key={index}
-                  className={`h-8 w-8 rounded-full border-2 
-                    ${submitCount > index ? 'bg-red-500' : 'bg-transparent'}`}
-                />
-              ))}
+              {Array.from({ length: 4 }).map((_, index) =>
+                index >= submitCount ? (
+                  <div
+                    key={index}
+                    className="h-6 w-6 rounded-full border-black border-2 bg-warm-yellow"
+                  />
+                ) : null
+              )}
             </div>
             <button
-              className="bg-white hover:bg-gray-100 text-gray-800 font-lato font-semibold py-2 px-4 border-2 border-outline rounded-full shadow"
+              className={`bg-white hover:bg-gray-100 text-gray-800 font-lato font-semibold py-2 px-4 border-2 border-black rounded-full shadow ${
+                selectedCircles.length !== 2 ? "opacity-50 cursor-not-allowed" : ""
+              }`}
               onClick={handleSubmit}
-              disabled={gameOver} 
+              disabled={selectedCircles.length !== 2 || gameOver}
             >
               Submit
             </button>
           </div>
-          {gameOver && (
-            <div className="text-center mt-4 text-xl font-bold text-red-600">
-              Game Over! You've reached the maximum number of attempts.
+          {oneAway && (
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 border-2 border-black bg-white text-black px-4 py-2 rounded-md shadow-lg">
+              One Away!
             </div>
           )}
         </div>
       </div>
+      <Modal
+        isVisible={showModal}
+        title={modalTitle}
+        message={modalMessage}
+      />
     </div>
   );
 };
