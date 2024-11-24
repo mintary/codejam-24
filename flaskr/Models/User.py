@@ -3,6 +3,12 @@ from sqlalchemy import JSON
 
 from flaskr import db
 
+friends_association = db.Table(
+    'friends',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('friend_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
+)
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -12,7 +18,13 @@ class User(db.Model, UserMixin):
     highest_score = db.Column(db.Integer, default=0)
     last_played = db.Column(db.DateTime, nullable=True)
 
-    friends = db.Column(JSON, nullable=True, default=list)
+    friends = db.relationship(
+        'User',
+        secondary=friends_association,
+        primaryjoin=id == friends_association.c.user_id,
+        secondaryjoin=id == friends_association.c.friend_id,
+        backref='friend_of'
+    )
 
     def __init__(self, username, password):
         self.username = username

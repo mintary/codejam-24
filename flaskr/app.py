@@ -40,12 +40,21 @@ def add_friend():
 
 """
 
-
-@app.route('/friend')
-def list_friends():
+@app.route('/add-friend', methods=['POST'])
+def add_friend():
     data = request.get_json()
-    return _authServ.list_friends(data)
+    print('Received data:', data)
+    return _authServ.add_friend(data)
 
+@app.route('/friend', methods=['GET'])
+def list_friends():
+    username = request.args.get("username")
+    return _authServ.list_friends(username)
+
+@app.route('/get-score', methods=['GET'])
+def get_score():
+    username = request.args.get("username")
+    return _authServ.get_score(username)
 
 @app.route('/user', methods=['GET'])
 def get_user():
@@ -58,7 +67,6 @@ def submit_answer():
     data = request.get_json()
     print(data)
     return _authServ.update_score(data)
-
 
 @app.route('/get-question', methods=['GET'])
 def get_question():

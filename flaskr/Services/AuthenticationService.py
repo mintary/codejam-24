@@ -38,28 +38,52 @@ class AuthenticationService:
 
     def add_friend(self, data):
         username = data['username']
-        friend = data['friend']
-
+        friend_username = data['friend']
+        
         user = User.query.filter_by(username=username).first()
-        friend = User.query.filter_by(username=friend).first()
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        friend = User.query.filter_by(username=friend_username).first()
+        if not friend:
+            return jsonify({"error": "Friend not found"}), 404
+
+        if friend in user.friends:
+            return jsonify({"error": "Already friends"}), 400
+
+        user.friends.append(friend)
+        db.session.commit()
+
+        return jsonify({"message": f"{friend_username} added as a friend"}), 200
+
+    def list_friends(self, username):
+        user = User.query.filter_by(username=username).first()
 
         if user is None:
             return jsonify({'message': 'User does not exist'}), 400
 
-        if friend is not None:
-            return jsonify({'message': 'Friend does not exist'}), 400
+        friends_data = []
+        for friend in user.friends:
+            friend_info = {
+                'username': friend.username,
+                'highest_score': friend.highest_score,
+                'total_score': friend.total_score
+            }
+            friends_data.append(friend_info)
 
-        if friend in user.friends:
-            return jsonify({'message': 'Friend already added'}), 400
+        return jsonify({'friends': friends_data}), 200
 
-        user.friends.append(friend)
-        db.session.commit()
-        return jsonify({'message': 'Friend added successfully'}), 201
-
-    def list_friends(self, data):
-        username = data['username']
+    def get_score(self, username):
         user = User.query.filter_by(username=username).first()
-        return jsonify({'friends': user.friends}), 200
+        
+        if user:
+            return {
+                "total_score": user.total_score,
+                "highest_score": user.highest_score,
+                "last_played": user.last_played
+            }
+        else:
+            return {"message": "User not found"}
 
     def get_user(self, data):
         username = data['username']
