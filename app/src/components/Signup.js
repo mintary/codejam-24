@@ -11,6 +11,7 @@ const Signup = () => {
   const auth = useAuth();
 
   const handleSubmitEvent = (e) => {
+    console.log("test");
     e.preventDefault();
     setError(""); 
 
