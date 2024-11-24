@@ -6,7 +6,7 @@ import json
 import random
 import os
 from langdetect import detect
-from category_model import CategoryModel
+from flaskr.data_processing.category_model import CategoryModel
 import google.generativeai as genai
 from dotenv import load_dotenv
 
@@ -153,7 +153,21 @@ class ClaimsGenerator:
         shit = self.convert_to_headlines(false_claims)
         print(shit)
 
+    def wrong_claims(self, category, number):
+        result = []
+        while len(result) < number:
+            false_claims = self.scrape_factcheck(10,4)
+            for claim in false_claims:
+                if len(result) == number:
+                    break
+                if claim['category'] == category:
+                    result.append(number)
+
+
+
+"""
 claims = ClaimsGenerator()
 print(claims.scrape_medical(10))
 print(claims.scrape_political(10))
 print(claims.scrape_factcheck(10, 4))
+"""
