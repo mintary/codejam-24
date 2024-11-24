@@ -1,3 +1,5 @@
+from datetime import date
+
 from flask import jsonify
 from flask_jwt_extended import create_access_token
 
@@ -9,7 +11,6 @@ class AuthenticationService:
     def login(self, data):
         username = data['username']
         password = data['password']
-        print('Received data:', username, password)
 
         user = User.query.filter_by(username=username).first()
 
@@ -65,9 +66,10 @@ class AuthenticationService:
         user = User.query.filter_by(username=username).first()
         return user
 
-    def add_score(self, data):
+    def update_score(self, data):
         username = data['username']
         user = User.query.filter_by(username=username).first()
-        user.score += 1
+        user.score = data['score']
+        user.last_played = date.today().strftime("%Y-%m-%d")
         db.session.commit()
         return jsonify({'message': 'Score updated successfully'}), 200
