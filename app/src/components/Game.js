@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import plantleaves from '../assets/plantleaves.png'
+import { useNavigate } from "react-router-dom";
+import plantleaves from "../assets/plantleaves.png";
+import "./Gameboard.css";
 
 const Modal = ({ isVisible, title, message, onNavigate }) => {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ const Modal = ({ isVisible, title, message, onNavigate }) => {
   if (!isVisible) return null;
 
   const handleNavigateLeaderboard = () => {
-    navigate('/leaderboard');
+    navigate("/leaderboard");
   };
 
   return (
@@ -29,7 +30,7 @@ const Modal = ({ isVisible, title, message, onNavigate }) => {
   );
 };
 
-const Game = () => {
+const Game = ({ claims }) => {
   const totalWeedCount = 2;
   const [gamePositions, setGamePositions] = useState([]);
   const [submitCount, setSubmitCount] = useState(0);
@@ -42,18 +43,36 @@ const Game = () => {
   const [modalMessage, setModalMessage] = useState(
     "You've reached the maximum number of attempts. Better luck next time!"
   );
+  const shuffleAnswers = (claims) => {
+    const shuffledClaims = [...claims];
+    for (let i = shuffledClaims.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledClaims[i], shuffledClaims[j]] = [
+        shuffledClaims[j],
+        shuffledClaims[i],
+      ];
+    }
+    return shuffledClaims;
+  };
+
+  const shuffledClaims = shuffleAnswers(claims);
+
+  console.log(shuffledClaims);
 
   useEffect(() => {
-    const positions = Array.from({ length: 5 }, (_, i) => ({
+    const positions = Array.from({ length: 7 }, (_, i) => ({
       id: i + 1,
-      isWeed: false,
+      isWeed: shuffledClaims[i].rating,
       selected: false,
+      claim: shuffledClaims[i]?.claim,
     }));
 
     const weedIndices = new Set();
-    while (weedIndices.size < totalWeedCount) {
-        weedIndices.add(Math.floor(Math.random() * positions.length));
-    }
+    shuffledClaims.forEach((claim, index) => {
+      if (claim.rating === "false") {
+        weedIndices.add(index);
+      }
+    });
 
     weedIndices.forEach((index) => {
       positions[index].isWeed = true;
@@ -67,7 +86,9 @@ const Game = () => {
     const newSelectedCircles = [...selectedCircles];
 
     if (newSelectedCircles.includes(id)) {
-      setSelectedCircles(newSelectedCircles.filter((circleId) => circleId !== id));
+      setSelectedCircles(
+        newSelectedCircles.filter((circleId) => circleId !== id)
+      );
     } else {
       if (newSelectedCircles.length < 2) {
         newSelectedCircles.push(id);
@@ -112,13 +133,13 @@ const Game = () => {
     <div className="w-full min-h-screen relative bg-gray-100">
       {/* Game Content */}
       <div className="w-full max-w-2xl mx-auto p-4 relative z-10">
-        <div className="bg-light-blue p-6 rounded-xl shadow-lg mt-40 mb-20 relative">
+        <div className="p-6 mt-40 mb-20 relative">
           <div className="font-lato font-bold text-center mb-5 text-2xl">
-            Find the fake news articles!
+            Find the fake news!
           </div>
           {/* Game Board */}
-          <div className="bg-green h-64 rounded-lg mb-4 p-10 flex flex-col justify-center items-center relative z-20">
-            <div className="flex justify-center gap-40 mb-10">
+          <div className="bg-green h-[400px] rounded-lg mb-4 p-10 flex flex-col justify-center items-center relative z-20 shadow-gameboard">
+            <div className="flex justify-center gap-20 mb-10">
               {gamePositions.slice(0, 3).map((pos) => (
                 <div
                   key={pos.id}
@@ -137,7 +158,7 @@ const Game = () => {
                 </div>
               ))}
             </div>
-            <div className="flex justify-center gap-40 mt-5">
+            <div className="flex justify-center gap-20 mt-5">
               {gamePositions.slice(3).map((pos) => (
                 <div
                   key={pos.id}
@@ -172,7 +193,9 @@ const Game = () => {
             </div>
             <button
               className={`bg-white hover:bg-gray-100 text-gray-800 font-lato font-semibold py-2 px-4 border-2 border-black rounded-full shadow ${
-                selectedCircles.length !== 2 ? "opacity-50 cursor-not-allowed" : ""
+                selectedCircles.length !== 2
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
               }`}
               onClick={handleSubmit}
               disabled={selectedCircles.length !== 2 || gameOver}
@@ -187,15 +210,9 @@ const Game = () => {
           )}
         </div>
       </div>
-      <Modal
-        isVisible={showModal}
-        title={modalTitle}
-        message={modalMessage}
-      />
+      <Modal isVisible={showModal} title={modalTitle} message={modalMessage} />
     </div>
   );
 };
 
 export default Game;
-
-

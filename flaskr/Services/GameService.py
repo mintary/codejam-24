@@ -6,8 +6,7 @@ class GameService:
     def __init__(self, answer, question):
         self.claims = ClaimsGenerator()
 
-    def get_question(self, data):
-        category = data['category']
+    def get_question(self, category):
         right_claims = []
         wrong_claims = []
         if category == 'Politics':

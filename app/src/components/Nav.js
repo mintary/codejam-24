@@ -21,20 +21,16 @@ const Nav = () => {
 
   return (
     <div>
-      {/* Fixed Nav */}
-      <nav className="bg-white bg-light-blue border-b border-gray-500 fixed w-full top-0 left-0 z-50">
+      <nav className="bg-white bg-light-blue border-b border-gray-400 fixed w-full top-0 left-0 z-50">
         <div className="flex items-center justify-between">
-          {/* Left: Hamburger Menu */}
           <div className="flex-1 flex items-center ml-4 relative z-50">
             <Hamburger onClick={toggleHamburger} />
           </div>
 
-          {/* Center: Logo */}
           <div className="flex justify-center flex-1">
             <img src={logo} alt="Logo" width={230} height={30} />
           </div>
 
-          {/* Right: Auth Buttons */}
           <div className="flex-1 flex items-center justify-end space-x-3 mr-5">
             {!auth.username ? (
               <div className="flex space-x-4">
@@ -70,20 +66,19 @@ const Nav = () => {
           </div>
         </div>
 
-        {/* Side Menu */}
         <div
           className={`navigation fixed top-0 left-0 w-60 h-screen bg-white text-grey transform transition-transform duration-300 ease-in-out border-b border-gray-500 z-40 
             ${hamburgerOpen ? "translate-x-0" : "-translate-x-full"} 
-            flex flex-col justify-between p-4 border-r border-gray-500`}
+            flex flex-col justify-between p-4 border-r border-gray-400`}
         >
-          <div className="mt-16">
+          <div className="mt-[80px]">
             <h4
               onClick={handleNavigateHome}
               className="text-black hover:text-green cursor-pointer transition-colors duration-200"
             >
               Home
             </h4>
-            <h4 
+            <h4
               onClick={handleNavigateLeaderBoard}
               className="text-black hover:text-green cursor-pointer transition-colors duration-200"
             >
@@ -122,4 +117,3 @@ const Nav = () => {
 };
 
 export default Nav;
-

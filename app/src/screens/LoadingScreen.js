@@ -1,3 +1,14 @@
-import { setState } from "react";
+import React from "react";
+import Loading from "../components/Loading";
 
-const LoadingScreen = () => {};
+const LoadingScreen = () => {
+  return (
+    <div className="loading-screen">
+      <div className="overlay">
+        <Loading />
+      </div>
+    </div>
+  );
+};
+
+export default LoadingScreen;
