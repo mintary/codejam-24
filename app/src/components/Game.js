@@ -84,8 +84,8 @@ const Game = ({ claims }) => {
   };
 
   useEffect(() => {
-    if (auth && username != "") {
-      setTodayScore();
+    if (auth && username != "" && gameOver) {
+      setTodayScore(username, score);
     }
   }, [gameOver]);
 
@@ -134,14 +134,13 @@ const Game = ({ claims }) => {
   const handleHoverEnter = (pos, e) => {
     const rect = e.target.getBoundingClientRect();
     setHoverPosition({
-      top: rect.top + window.scrollY, 
-      left: rect.left + window.scrollX, 
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
       width: rect.width,
       height: rect.height,
     });
     setHoveredCircle(pos);
   };
-  
 
   const handleHoverLeave = () => {
     setHoveredCircle(null);

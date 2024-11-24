@@ -67,7 +67,6 @@ class AuthenticationService:
         return user
 
     def update_score(self, data):
-        print(data)
         username = data['username']
         new_score = data['score']
         user = User.query.filter_by(username=username).first()
