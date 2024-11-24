@@ -18,8 +18,18 @@ const config = {
     extend: {
       fontFamily: {
         'playfair-display': ['Playfair Display', 'sans-serif'],
+        'lato': ['Lato', 'sans-serif'],
       },
       colors: {
+        'warm-yellow': 'hsl(var(--warm-yellow))',
+        'bright-yellow': 'hsl(var(--bright-yellow))',
+        'chrome-blue': 'hsl(var(--chrome-blue))',
+        'light-blue': 'hsl(var(--light-blue))',
+        'green-blue': 'hsl(var(--green-blue))',
+        'dark-green-blue': 'hsl(var(--dark-green-blue))',
+        'green': 'hsl(var(--green))',
+        'dark-green': 'hsl(var(--dark-green))',
+        'outline': 'hsl(var(--outline))',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

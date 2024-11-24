@@ -1,5 +1,6 @@
 import "./App.css";
 import Nav from "./components/Nav";
+import Game from "./components/Game"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AuthProvider from "./components/AuthProvider";
 import LoginScreen from "./screens/LoginScreen";
@@ -19,6 +20,7 @@ function App() {
           </Routes>
         </AuthProvider>
       </Router>
+      <Game /> 
     </div>
   );
 }
