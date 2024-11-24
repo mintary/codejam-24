@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import plantleaves from "../assets/plantleaves.png";
 import "./Gameboard.css";
+import NewsModal from "../components/NewsModal";
 
 const Modal = ({ isVisible, title, message, onNavigate }) => {
   const navigate = useNavigate();
@@ -43,6 +44,9 @@ const Game = ({ claims }) => {
   const [modalMessage, setModalMessage] = useState(
     "You've reached the maximum number of attempts. Better luck next time!"
   );
+  const [hoveredCircle, setHoveredCircle] = useState(null);
+  const [hoverPosition, setHoverPosition] = useState(null);
+
   const shuffleAnswers = (claims) => {
     const shuffledClaims = [...claims];
     for (let i = shuffledClaims.length - 1; i > 0; i--) {
@@ -56,8 +60,6 @@ const Game = ({ claims }) => {
   };
 
   const shuffledClaims = shuffleAnswers(claims);
-
-  console.log(shuffledClaims);
 
   useEffect(() => {
     const positions = Array.from({ length: 7 }, (_, i) => ({
@@ -79,7 +81,7 @@ const Game = ({ claims }) => {
     });
 
     setGamePositions(positions);
-  }, [totalWeedCount]);
+  }, [totalWeedCount, shuffledClaims]);
 
   const handlePositionClick = (id) => {
     if (gameOver) return;
@@ -99,6 +101,21 @@ const Game = ({ claims }) => {
         setSelectedCircles(newSelectedCircles);
       }
     }
+  };
+
+  const handleHoverEnter = (pos, e) => {
+    const rect = e.target.getBoundingClientRect();
+    console.log(rect);
+    setHoverPosition({
+      top: rect.top,
+      left: rect.left,
+    });
+    setHoveredCircle(pos);
+  };
+
+  const handleHoverLeave = () => {
+    setHoveredCircle(null);
+    setHoverPosition(null);
   };
 
   const clickedWeedCount = gamePositions.filter(
@@ -149,6 +166,8 @@ const Game = ({ claims }) => {
                       : "border-4 border-transparent"
                   } ${shakeCircles.includes(pos.id) ? "shake" : ""}`}
                   onClick={() => handlePositionClick(pos.id)}
+                  onMouseEnter={(e) => handleHoverEnter(pos, e)}
+                  onMouseLeave={handleHoverLeave}
                 >
                   <img
                     src={plantleaves}
@@ -168,6 +187,8 @@ const Game = ({ claims }) => {
                       : "border-4 border-transparent"
                   } ${shakeCircles.includes(pos.id) ? "shake" : ""}`}
                   onClick={() => handlePositionClick(pos.id)}
+                  onMouseEnter={(e) => handleHoverEnter(pos, e)}
+                  onMouseLeave={handleHoverLeave}
                 >
                   <img
                     src={plantleaves}
@@ -208,6 +229,11 @@ const Game = ({ claims }) => {
               One Away!
             </div>
           )}
+          <NewsModal
+            isVisible={!!hoveredCircle}
+            claim={hoveredCircle?.claim}
+            position={hoverPosition}
+          />
         </div>
       </div>
       <Modal isVisible={showModal} title={modalTitle} message={modalMessage} />
