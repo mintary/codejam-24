@@ -6,14 +6,12 @@ const Leaderboard = () => {
   const [players, setPlayers] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc");
   const [friendName, setFriendName] = useState("");
-  const [friendScore, setFriendScore] = useState("");
   const auth = useAuth();
   const username = auth ? auth.username : "";
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulate fetching the leaderboard data from an API or local storage
     const fetchedPlayers = [
       { name: "Alice", score: 500 },
       { name: "Bob", score: 300 },
@@ -37,10 +35,9 @@ const Leaderboard = () => {
 
   const handleAddFriend = () => {
     if (friendName) {
-      const newFriend = { name: friendName, score: parseInt(friendScore) };
+      const newFriend = { name: friendName };
       setPlayers([...players, newFriend]);
       setFriendName("");
-      setFriendScore("");
     } else {
       alert("Please enter both a name and a score.");
     }

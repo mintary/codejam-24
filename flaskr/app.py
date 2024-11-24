@@ -56,6 +56,7 @@ def get_user():
 @app.route('/update-score', methods=['POST'])
 def submit_answer():
     data = request.get_json()
+    print(data)
     return _authServ.update_score(data)
 
 

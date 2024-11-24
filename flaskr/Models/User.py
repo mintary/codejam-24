@@ -17,6 +17,8 @@ class User(db.Model, UserMixin):
     def __init__(self, username, password):
         self.username = username
         self.password = password
+        self.total_score = 0
+        self.highest_score = 0
 
     def __repr__(self):
         return f'<User {self.username}>'

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import plantleaves from "../assets/plantleaves.png";
 import "./Gameboard.css";
 import NewsModal from "../components/NewsModal";
+import { useAuth } from "../components/AuthProvider";
 
 const Modal = ({ isVisible, title, message, score, onNavigate }) => {
   const navigate = useNavigate();
@@ -49,6 +50,9 @@ const Game = ({ claims }) => {
   const [hoverPosition, setHoverPosition] = useState(null);
   const [score, setScore] = useState(100);
 
+  const auth = useAuth();
+  const username = auth.username;
+
   const shuffleAnswers = (claims) => {
     const shuffledClaims = [...claims];
     for (let i = shuffledClaims.length - 1; i > 0; i--) {
@@ -62,6 +66,28 @@ const Game = ({ claims }) => {
   };
 
   const shuffledClaims = shuffleAnswers(claims);
+
+  const setTodayScore = async (username, score) => {
+    try {
+      const response = await fetch(`/update-score`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, score }),
+      });
+      const res = await response.json();
+      console.log(res);
+    } catch (err) {
+      console.error("Error fetching claims:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (auth && username != "") {
+      setTodayScore();
+    }
+  }, [gameOver]);
 
   useEffect(() => {
     const positions = Array.from({ length: 7 }, (_, i) => ({

@@ -67,9 +67,19 @@ class AuthenticationService:
         return user
 
     def update_score(self, data):
+        print(data)
         username = data['username']
+        new_score = data['score']
         user = User.query.filter_by(username=username).first()
-        user.score = data['score']
+        if user is None:
+            return jsonify({'message': 'User does not exist'}), 400
+
+        user.total_score = user.total_score + new_score
+
+        if new_score > user.highest_score:
+            user.highest_score = new_score
+
         user.last_played = date.today().strftime("%Y-%m-%d")
         db.session.commit()
+
         return jsonify({'message': 'Score updated successfully'}), 200
