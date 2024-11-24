@@ -7,12 +7,13 @@ const Loading = () => {
     <div className="flex items-center justify-center min-h-screen">
       <div className="text-center">
         <DotLottieReact
-          className="w-60 h-60 mb-0"
+          className="mb-0"
           src={loading}
           autoplay
           loop
+          style={{ width: "200px", height: "200px" }}
         />
-        <h1 className="animate-fadeIn text-color-grey">Loading...</h1>
+        <h1 className="animate-fadeIn text-xl text-grey-300">Loading...</h1>
       </div>
     </div>
   );

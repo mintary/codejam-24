@@ -27,7 +27,10 @@ const Nav = () => {
             <Hamburger onClick={toggleHamburger} />
           </div>
 
-          <div className="flex justify-center flex-1">
+          <div
+            className="flex hover:cursor-pointer justify-center flex-1"
+            onClick={() => navigate("/")}
+          >
             <img src={logo} alt="Logo" width={230} height={30} />
           </div>
 

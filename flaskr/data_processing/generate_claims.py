@@ -93,12 +93,10 @@ class ClaimsGenerator:
             for article in articles:
                 if len(headlines) != n:
                     headline = article.find("span", class_="PagePromoContentIcons-text")
-                    if headline and headline.text:
+                    if headline and headline.text  and self.valid_headline(headline.text):
                         headlines.append(headline.text)
 
-        filtered_headlines = self.filter_headlines(headlines)
-
-        return filtered_headlines
+        return headlines
 
     def scrape_medical(self, n: int):
         articles = []
@@ -114,12 +112,16 @@ class ClaimsGenerator:
             for article in articles:
                 if len(headlines) != n:
                     headline = article.find("h2")
-                    if headline != None and headline.text:
+                    if headline != None and headline.text and self.valid_headline(headline.text):
                         headlines.append(headline.text)
 
-        filtered_headlines = self.filter_headlines(headlines)
+        return headlines
 
-        return filtered_headlines
+    def valid_headline(self, headline):
+        if "?" not in headline and not self.contains_text(headline, self.QUESTION_WORDS):
+            return True
+        else:
+            return False
 
     def filter_headlines(self, headlines):
         filtered = []

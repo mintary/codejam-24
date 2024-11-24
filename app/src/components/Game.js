@@ -62,7 +62,7 @@ const Game = ({ claims }) => {
   useEffect(() => {
     const positions = Array.from({ length: 7 }, (_, i) => ({
       id: i + 1,
-      isWeed: shuffledClaims[i].rating,
+      isWeed: shuffledClaims[i].rating === "false",
       selected: false,
       claim: shuffledClaims[i]?.claim,
     }));
