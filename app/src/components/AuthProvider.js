@@ -1,11 +1,10 @@
-import { useState, useContext, createContext } from "react";
+import { useState, useContext, createContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [username, setUsername] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("site" || ""));
 
   const navigate = useNavigate();
 
@@ -20,10 +19,14 @@ const AuthProvider = ({ children }) => {
         body: JSON.stringify(data),
       });
       const res = await response.json();
-      if (res["message"] == "Login Success") {
+      if (res["message"] === "Login Success") {
         setUsername(data.username);
-        setToken(res["access_token"]);
+        localStorage.setItem("site", res["access_token"]);
         console.log("logged in");
+        navigate("/", { replace: true });
+      } else {
+        alert("Incorrect username or password.");
+        throw new Error(`${res["message"]}`);
       }
     } catch (err) {
       console.error(err);
@@ -32,13 +35,12 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     setUsername(null);
-    setToken("");
     localStorage.removeItem("site");
     console.log("logged out");
   };
 
   return (
-    <AuthContext.Provider value={{ username, token, loginAction, logOut }}>
+    <AuthContext.Provider value={{ username, loginAction, logOut }}>
       {children}
     </AuthContext.Provider>
   );

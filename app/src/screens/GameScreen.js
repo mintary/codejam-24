@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import Game from "../components/Game";
 
 const GameScreen = () => {
-  return <div>game screen</div>;
+  return <Game />;
 };
 
 export default GameScreen;
