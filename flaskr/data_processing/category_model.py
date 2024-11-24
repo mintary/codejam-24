@@ -8,9 +8,19 @@ class CategoryModel:
         self.label_encoder = None
     
     def load_model_and_vectorizer(self):
-        self.model = joblib.load("data_processing/models/news_category_model.pkl")
-        self.vectorizer = joblib.load("data_processing/models/vectorizer.pkl")
-        self.label_encoder = joblib.load("data_processing/models/label_encoder.pkl")
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+
+        model_path = os.path.join(script_dir, "models/news_category_model.pkl")
+        vectorizer_path = os.path.join(script_dir, "models/vectorizer.pkl")
+        label_encoder_path = os.path.join(script_dir, "models/label_encoder.pkl")
+
+        self.model = joblib.load(model_path)
+        self.vectorizer = joblib.load(vectorizer_path)
+        self.label_encoder = joblib.load(label_encoder_path)
+
+        # self.model = joblib.load("data_processing/models/news_category_model.pkl")
+        # self.vectorizer = joblib.load("data_processing/models/vectorizer.pkl")
+        # self.label_encoder = joblib.load("data_processing/models/label_encoder.pkl")
     
     def predict_categories(self, headlines):
         if self.model is None or self.vectorizer is None or self.label_encoder is None:

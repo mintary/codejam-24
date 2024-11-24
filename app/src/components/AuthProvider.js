@@ -1,4 +1,4 @@
-import { useContext, createContext } from "react";
+import { useState, useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
         body: JSON.stringify(data),
       });
       const res = await response.json();
-      if (res) {
+      if (res["message"] == "Login Success") {
         setUsername(data.username);
         setToken(res["access_token"]);
         console.log("logged in");
