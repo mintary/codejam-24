@@ -1,6 +1,6 @@
 import "./App.css";
 import Nav from "./components/Nav";
-import Game from "./components/Game"
+import Game from "./components/Game";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AuthProvider from "./components/AuthProvider";
 import LoginScreen from "./screens/LoginScreen";
@@ -16,11 +16,10 @@ function App() {
           </header>
           <Routes>
             <Route path="/login" element={<LoginScreen />} />
-            <Route path="/game" element={<GameScreen />} />
+            <Route path="/" element={<GameScreen />} />
           </Routes>
         </AuthProvider>
       </Router>
-      <Game /> 
     </div>
   );
 }
