@@ -10,14 +10,14 @@ function App() {
     <div className="App">
       <Router>
         <AuthProvider>
+          <header className="App-header">
+            <Nav />
+          </header>
           <Routes>
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/game" element={<GameScreen />} />
           </Routes>
         </AuthProvider>
-        <header className="App-header">
-          <Nav />
-        </header>
       </Router>
     </div>
   );

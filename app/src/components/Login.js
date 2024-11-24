@@ -12,7 +12,6 @@ const Login = () => {
     console.log("submitted login");
     e.preventDefault();
     if (input.username !== "" && input.password !== "") {
-      console.log(input);
       auth.loginAction(input);
       return;
     }

@@ -20,10 +20,15 @@ const AuthProvider = ({ children }) => {
         body: JSON.stringify(data),
       });
       const res = await response.json();
-      if (res["message"] == "Login Success") {
+      if (res["message"] === "Login Success") {
         setUsername(data.username);
         setToken(res["access_token"]);
+        localStorage.setItem("site", res["access_token"]);
         console.log("logged in");
+        navigate("/", { replace: true });
+      } else {
+        alert("Incorrect username or password.");
+        throw new Error(`${res["message"]}`);
       }
     } catch (err) {
       console.error(err);
